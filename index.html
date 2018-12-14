@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Excrypt Decrypt Text</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container{
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        }
+        textarea {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 80%;
+        text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div style="margin-bottom: 30px">
+            <textarea rows="10" cols="30" type="text" id="plainText" placeholder="Enter text to encrypt..(your text will be converted to UPPERCASE)"></textarea><br />
+            <button id="encryptButton">Encrypt</button>
+        </div>
+        <div>
+            <textarea rows="10" cols="30" type="text" id="encryptText" placeholder="Excrypted text with appear here.."></textarea><br />
+            <button id="decryptButton">Decrypt</button>
+        </div>
+    </div>
+</body>
+<script>
+    //taking reference of every element
+    const plainText = document.querySelector("#plainText")
+    const encryptText = document.querySelector("#encryptText")
+    const encryptButton = document.querySelector("#encryptButton")
+    const decryptButton = document.querySelector("#decryptButton")
+
+    //regex to determine alphabets
+    const alphaRegex = /^[a-zA-Z]+$/i
+
+    //when encryption button clicks
+    encryptButton.addEventListener('click', function () {
+        let text = plainText.value
+        if (text.length > 0) {
+            if (alphaRegex.test(text)) {
+                fetch(`backend.php?text=${text}&type=encrypt`)
+                    .then(function (response) {
+                        return (response.json())
+                    })
+                    .then(function (res) {
+                        let recieveData = res
+                        encryptText.value = recieveData.value
+                    })
+            }
+            else {
+                alert('Plain text should be alphabetical only')
+            }
+        }
+        else {
+            alert('No plain text to be encrypted')
+        }
+    })
+
+    //when decryption button
+    decryptButton.addEventListener('click', function () {
+        let text = encryptText.value
+        if (text.length > 0) {
+            fetch(`backend.php?text=${text}&type=decrypt`)
+                .then(function (response) {
+                    return (response.json())
+                })
+                .then(function (res) {
+                    let recieveData = res
+                    plainText.value = recieveData.value
+                })
+
+        }
+        else {
+            alert('No encrypted text present to be decrypted')
+        }
+    })
+
+</script>
+
+</html>
