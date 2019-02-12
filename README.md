@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Vinnu1/caesar-cipher-rest-api.svg?branch=master)](https://travis-ci.org/Vinnu1/caesar-cipher-rest-api)
+
 # caesar-cipher-rest-api
 Rest api (along with clientside) which caesar ciphers, converts encrypted text to hexademical and vice - versa
 
